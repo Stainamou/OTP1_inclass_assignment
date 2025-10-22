@@ -14,6 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <jacoco.version>0.8.12</jacoco.version>
+        <!-- placeholder so IDE/static analysis resolves the property; JaCoCo prepare-agent will overwrite at build time -->
+        <jacoco.agent.argLine></jacoco.agent.argLine>
     </properties>
 
     <pluginRepositories>
@@ -39,7 +41,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <release>23</release>
+                    <release>11</release>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
@@ -50,8 +52,8 @@
                 <version>3.1.2</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
-                    <!-- JaCoCo prepare-agent will populate jacoco.agent.argLine at build time -->
-                    <argLine>${jacoco.agent.argLine},excludes=sun/*,jdk/*,java/*,javax/*</argLine>
+                    <!-- Do not add a leading comma; the jacoco plugin will set the full -javaagent arg -->
+                    <argLine>${jacoco.agent.argLine}</argLine>
                 </configuration>
             </plugin>
 
@@ -65,6 +67,16 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/jacoco.exec</destFile>
+                            <propertyName>jacoco.agent.argLine</propertyName>
+                            <excludes>
+                                <exclude>sun/*</exclude>
+                                <exclude>jdk/*</exclude>
+                                <exclude>java/*</exclude>
+                                <exclude>javax/*</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>report</id>
