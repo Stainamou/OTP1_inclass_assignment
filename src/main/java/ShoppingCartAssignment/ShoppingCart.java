@@ -7,13 +7,15 @@ public class ShoppingCart {
     private final List<Item> items = new ArrayList<>();
 
     public void addItem(Item item) {
-        items.add(item);
+        if (item != null) {
+            items.add(item);
+        }
     }
 
     public double calculateAllItemsCost() {
         double total = 0.0;
         for (Item item : items) {
-            total += item.getPrice();
+            total += item.totalCost(); // use totalCost (price * quantity)
         }
         return total;
     }
