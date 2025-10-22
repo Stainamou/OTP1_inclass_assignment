@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <jacoco.version>0.8.12</jacoco.version>
-        <jacoco.agent.argLine></jacoco.agent.argLine>
     </properties>
 
     <pluginRepositories>
@@ -51,6 +50,7 @@
                 <version>3.1.2</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
+                    <!-- JaCoCo prepare-agent will populate jacoco.agent.argLine at build time -->
                     <argLine>${jacoco.agent.argLine},excludes=sun/*,jdk/*,java/*,javax/*</argLine>
                 </configuration>
             </plugin>
